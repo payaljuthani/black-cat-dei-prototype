@@ -21,3 +21,11 @@ One universal, scroll-scrubbed GSAP timeline per pinned sequence — not separat
 ## Testing scroll-driven behavior with scripted scroll (automated tests, not real user scrolling)
 
 `window.scrollTo()` alone doesn't reliably fire the scroll event ScrollTrigger listens for. Call `ScrollTrigger.update()` right after, and wait ~1–1.5s before reading computed positions — `scrub:1` has its own inertia, so values read immediately after a big programmatic jump can be stale. This is a test-methodology detail, not app behavior to fix.
+
+## Known limitation: brief stale frame on a very fast scroll
+
+A fast scroll burst (flick, or several quick wheel ticks) through a pinned section can leave a stale painted frame on screen for a moment — the underlying DOM/layout is correct throughout (verified directly), but the paint doesn't catch up until the next scroll event, at which point it self-corrects completely. It's never a permanent break.
+
+Root cause per GSAP's own maintainers: native scrolling runs on its own compositor thread, decoupled from the JS thread where ScrollTrigger applies the pin, so under load the two can render a frame apart — a browser rendering-engine limitation, not a ScrollTrigger defect. See the [GSAP forum thread](https://gsap.com/community/forums/topic/40298-strange-behaviour-of-a-pin-element-using-scrolltriggers/) on this exact symptom.
+
+`fastScrollEnd`, `ScrollTrigger.normalizeScroll(true)`, `pinType:'transform'`, and `will-change` hints on the heavily-animated elements (logo items, flip cards, the pinned sections themselves) are all applied as mitigations — these are the standard documented responses to this issue. In testing, none of them provably eliminated it under an aggressive enough automated scroll burst; real device/trackpad testing is the more reliable way to gauge how often this actually surfaces for real users, since typical human scrolling may not trigger it as readily as a scripted burst does.

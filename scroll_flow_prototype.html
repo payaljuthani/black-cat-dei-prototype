@@ -178,6 +178,13 @@
     display:flex; align-items:center; justify-content:center;
     overflow:hidden;
     background:var(--bg);
+    /* GSAP pins this with position:fixed while it holds dozens of
+       transform/opacity-tweened descendants (logo items, flip cards). Under
+       a fast scroll burst the browser can leave a stale composited frame
+       on screen — right DOM/layout, wrong paint — that only clears on the
+       next repaint trigger. will-change keeps this on its own properly
+       invalidated layer instead of relying on ad-hoc promotion. */
+    will-change: transform;
   }
   .stage{
     position:relative;
@@ -231,6 +238,7 @@
      repositioned once laid out, so there's nothing left to "jump". */
   .list-col{
     display:flex; flex-direction:column; gap:12px;
+    will-change: transform;
   }
 
   .logo-item{cursor:pointer;}
@@ -258,6 +266,7 @@
   }
   .logo-item .logo-img{
     display:block; height:auto; max-height:24px; width:auto; max-width:100%; opacity:1;
+    will-change: opacity, clip-path;
   }
 
   /* ---- flip cards (promised / did) ---- */
@@ -270,6 +279,7 @@
     padding:22px;
     text-align:center;
     transform-style:preserve-3d;
+    will-change: transform;
   }
   .flip-card .title{
     font-size:18px; line-height:22px; font-weight:500; color:var(--accent-dark);
@@ -308,7 +318,7 @@
       width:100%; height:auto;
       padding:0 20px;
     }
-    #logoField{display:flex; gap:20px; justify-content:center; width:100%;}
+    #logoField{display:flex; gap:20px; justify-content:center; width:100%; will-change:opacity;}
     #cardsLayer{display:flex; flex-direction:column; align-items:center; width:100%;}
     .list-col.left{align-items:flex-end; width:140px; text-align:left;}
     .list-col.right{align-items:flex-start; width:140px; text-align:right;}
@@ -628,6 +638,18 @@
 <script>
 (function(){
   gsap.registerPlugin(ScrollTrigger);
+
+  // A fast scroll (flick, or a quick burst of wheel ticks) can leave a
+  // pinned section showing a stale composited frame — correct DOM/layout,
+  // wrong paint, until some later scroll event forces a repaint. Root
+  // cause (per GSAP's own maintainers): native scrolling runs on its own
+  // compositor thread, decoupled from the JS thread where ScrollTrigger
+  // applies the pin, so the two can render a frame apart under load.
+  // normalizeScroll forces scrolling through the JS thread instead, so it
+  // stays in lockstep with the pin logic. anticipatePin/fastScrollEnd
+  // (set per-ScrollTrigger below) are the commonly-suggested fixes but
+  // only mitigate the symptom; this addresses the actual cause.
+  ScrollTrigger.normalizeScroll(true);
 
   // Every link in this prototype (nav tabs, CTA, company names) is a
   // placeholder with no real destination yet — href="#" on its own still
@@ -956,7 +978,16 @@
         end:'+=' + (TOTAL_BEATS_1 * BEAT_VH) + '%',
         scrub:1,
         pin:true,
+        pinType:'transform',
         anticipatePin:1,
+        // A fast scroll (flick, or a quick series of wheel ticks) forces
+        // scrub:1 to interpolate through many intermediate tween steps in
+        // a short window; under that main-thread load the browser can
+        // leave a stale composited frame on screen (right DOM, wrong
+        // paint) that doesn't self-correct. fastScrollEnd skips straight
+        // to the state matching wherever the scroll lands instead of
+        // easing through every step, avoiding that load entirely.
+        fastScrollEnd:true,
         onUpdate: function(self){
           setDot1(Math.min(TOTAL_BEATS_1 - 1, Math.floor(self.progress * TOTAL_BEATS_1)));
         }
@@ -1076,7 +1107,9 @@
         end:'+=' + (TOTAL_BEATS_2 * BEAT_VH) + '%',
         scrub:1,
         pin:true,
+        pinType:'transform',
         anticipatePin:1,
+        fastScrollEnd:true,
         onUpdate: function(self){
           setDot2(Math.min(TOTAL_BEATS_2 - 1, Math.floor(self.progress * TOTAL_BEATS_2)));
         }
