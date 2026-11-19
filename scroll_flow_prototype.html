@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DEI Dirty Dozen — Target</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inclusive+Sans:wght@400;500;700&family=Passion+One:wght@400;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/storyboard/1.webp">
+<link rel="preload" as="image" href="assets/storyboard/2.webp">
+<link rel="preload" as="image" href="assets/storyboard/3.webp">
+<link rel="preload" as="image" href="assets/storyboard/4.webp">
+<style>
+  :root{
+    /* Figma brand tokens, from BC_Phase2: manila/300, manila/600, manila/50,
+       gritty-black, tiger-orange/500 & /700, fire-yellow/500, burnt-orange/500 */
+    --bg:#fdf8f0;
+    --bg-card:#f9efdd;
+    --paper:#fcf9f5;
+    --ink:#1e1e1e;
+    --muted:#6b6358;
+    --line:#ddd2ba;
+    --accent:#fa521a;
+    --accent-dark:#af3912;
+    --fire:#e2af07;
+    --burnt:#96391a;
+    --accent-ink:#ffffff;
+    --radius-lg:12px;
+    --radius-sm:4px;
+    --font-heading:'Passion One', Georgia, serif;
+    --font-body:'Inclusive Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    --serif: var(--font-heading);
+    --sans: var(--font-body);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--font-body);
+    font-weight:500;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  /* ---------- nav ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    height:60px; padding:0 32px;
+    background:var(--ink);
+  }
+  .nav .brand{display:flex; align-items:center; gap:6px;}
+  .nav .brand img.icon{height:32px; width:auto; display:block;}
+  .nav .brand img.type{height:10px; width:auto; display:block;}
+  .nav-right{display:flex; align-items:center; gap:24px; height:60px;}
+  .nav-tabs{display:flex; gap:12px; height:60px;}
+  .nav-tabs a{
+    display:flex; align-items:center; justify-content:center;
+    height:60px; box-sizing:border-box; padding:10px;
+    color:#fff; font-size:18px; font-weight:500; line-height:22px;
+    text-decoration:none; letter-spacing:-0.18px;
+    border-bottom:3px solid transparent;
+  }
+  .nav-tabs a.active{color:var(--fire); font-weight:700; border-bottom-color:var(--fire);}
+  .btn-cta{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--fire); color:var(--ink); font-size:18px; font-weight:500; line-height:22px;
+    padding:8px 16px; border-radius:var(--radius-sm); text-decoration:none; letter-spacing:-0.18px;
+    border:none; cursor:pointer;
+  }
+  .btn-cta img{width:20px; height:20px; display:block;}
+
+  @media (max-width:699px){
+    .nav{padding:0 16px;}
+    .nav-tabs{display:none;}
+    .nav .brand img.type{display:none;}
+  }
+
+  /* ---------- hero ---------- */
+  .hero-img{display:block; width:100%; height:auto;}
+
+  /* ---------- static content blocks ---------- */
+  /* Page-grid text-panel rule (for text boxes outside the pinned
+     sequences): a fixed 712px panel above 775px viewport width; below
+     776px it spans the full row instead, with a 32px side margin down to
+     480px and 16px below that — independent of the vertical rhythm
+     breakpoint at 699px below. */
+  .content-block{
+    max-width:712px; margin:0 auto;
+    padding-top:80px; padding-bottom:0; padding-left:32px; padding-right:32px;
+  }
+  .content-block:last-of-type{padding-bottom:100px;}
+  .content-block.content-block--roomy{padding-top:120px;}
+  .content-block h2{
+    font-family:var(--font-heading); font-weight:400; font-size:48px; line-height:48px;
+    margin:0 0 40px; color:var(--ink);
+  }
+  .content-block p{font-size:18px; line-height:22px; font-weight:500; color:var(--ink); margin:0 0 24px;}
+  .content-block p:last-child{margin-bottom:0;}
+
+  @media (max-width:775px){
+    .content-block{max-width:none;}
+  }
+  @media (max-width:699px){
+    .content-block{padding-top:56px;}
+    .content-block:last-of-type{padding-bottom:56px;}
+    .content-block h2{font-size:32px; line-height:32px; margin-bottom:24px;}
+  }
+  @media (max-width:479px){
+    .content-block{padding-left:16px; padding-right:16px;}
+  }
+
+  /* ---------- hidden stories callout ---------- */
+  .hidden-stories{
+    max-width:712px; margin:0 auto;
+    padding-top:120px; padding-bottom:120px; padding-left:32px; padding-right:32px;
+  }
+  .hs-box{
+    background:var(--bg-card); border:1px solid var(--accent); border-radius:0;
+    padding:40px 48px; text-align:center;
+  }
+  .hs-box .hs-title{
+    font-weight:700; font-size:24px; line-height:28px; letter-spacing:-0.24px;
+    color:var(--accent-dark); margin:0 0 24px;
+  }
+  .hs-box p.hs-copy{font-size:20px; line-height:24px; font-weight:500; letter-spacing:-0.2px; color:var(--accent-dark); margin:0 0 20px;}
+  .hs-box p.hs-copy:last-child{margin-bottom:0;}
+
+  @media (max-width:775px){
+    .hidden-stories{max-width:none;}
+  }
+  @media (max-width:699px){
+    .hidden-stories{padding-top:24px; padding-bottom:56px;}
+    .hs-box{padding:28px 20px;}
+    .hs-box .hs-title{font-size:20px;}
+    .hs-box p.hs-copy{font-size:16px; line-height:1.5;}
+  }
+  @media (max-width:479px){
+    .hidden-stories{padding-left:16px; padding-right:16px;}
+  }
+
+  /* The Hidden Stories copy always lives inside Sequence 1 now (as its
+     first frame, .hs-frame below, at every width) — the standalone page
+     section is permanently hidden so it doesn't appear twice. */
+  .hidden-stories{display:none;}
+
+  /* ---- Hidden Stories as storyboard frame 0: same .sketch-img slot as the
+     illustrations (so it dissolves in/out with the exact mechanic used
+     between every other frame), just laid out as a centered card instead
+     of a scaled image. .hs-box itself reuses the styling above untouched. */
+  .sketch-img.hs-frame{
+    position:absolute; inset:0; top:0; left:0; transform:none;
+    height:100%; width:100%; max-width:none;
+    display:flex; align-items:center; justify-content:center;
+    padding:0 24px; box-sizing:border-box;
+  }
+  .hs-frame .hs-box{max-width:640px;}
+
+  /* ---------- scroll cue (hero / between sections) ---------- */
+  .scroll-cue{
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+    margin:0 auto 64px; font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted);
+  }
+  .scroll-cue .chevron{
+    width:1px; height:36px; background:linear-gradient(var(--muted), transparent);
+    animation:cue-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes cue-pulse{0%,100%{opacity:.25;}50%{opacity:1;}}
+  @media (prefers-reduced-motion: reduce){ .scroll-cue .chevron{animation:none;} }
+
+  /* ================= DESKTOP PINNED STORY SECTIONS ================= */
+  .story{
+    position:relative;
+    height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+    background:var(--bg);
+  }
+  .stage{
+    position:relative;
+    width:min(960px, 88vw);
+    height:min(600px, 70vh);
+  }
+
+  .progress{
+    position:absolute; left:50%; bottom:24px; transform:translateX(-50%);
+    display:flex; gap:6px; z-index:5;
+  }
+  .progress i{
+    width:14px; height:3px; background:var(--line); display:block; border-radius:2px;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .progress i.active{background:var(--accent); transform:scaleX(1.4);}
+
+  /* ---- storyboard art (real illustrations, one per beat) ---- */
+  .sketch-box{
+    position:absolute; inset:0; z-index:1;
+    overflow:visible;
+  }
+  .sketch-img{
+    position:absolute; top:0; left:50%; transform:translateX(-50%);
+    height:100%; width:auto; max-width:none;
+    opacity:0;
+    border-radius:0;
+  }
+  .sketch-img.active{opacity:1;}
+  #textboxLayerSeq1 .textbox{border-radius:0; background:rgba(249,239,221,0.95);}
+
+  /* ---- caption boxes (storyboard captions + the-companies caption) ---- */
+  .textbox-layer{
+    position:absolute; left:0; right:0; bottom:0; height:100%; z-index:10;
+    pointer-events:none;
+  }
+  .textbox{
+    position:absolute; left:50%; top:50%;
+    width:88%; max-width:640px;
+    background:var(--bg-card);
+    border:1px solid var(--accent);
+    border-radius:var(--radius-lg);
+    padding:28px 36px;
+    opacity:0;
+    text-align:center;
+  }
+  .textbox p{margin:0; font-size:20px; line-height:24px; font-weight:500; letter-spacing:-0.2px; color:var(--accent-dark);}
+
+  /* ---- logo field: two roster columns, each a fixed grid track (see the
+     #stage2 grid rule below) from the very start — they never move or get
+     repositioned once laid out, so there's nothing left to "jump". */
+  .list-col{
+    display:flex; flex-direction:column; gap:12px;
+  }
+
+  .logo-item{cursor:pointer;}
+  .logo-item .mask{
+    display:block;
+    will-change: clip-path;
+  }
+  /* Only ONE of .logo-img / .logo-text is ever actually in flow at a time
+     (the other is display:none) — whichever is visible is what the flex
+     column measures, so column width always matches what's really on
+     screen. They're swapped (JS) at the instant opacity hits 0, so the
+     swap itself is invisible and the crossfade still reads as smooth. */
+  .logo-item .content{
+    display:inline-block;
+  }
+  .logo-item .logo-text{
+    display:none; white-space:nowrap;
+    font-family:var(--font-body); font-weight:500; font-size:14px; line-height:16px;
+    letter-spacing:-0.14px; color:var(--ink); opacity:0;
+    text-decoration:none; cursor:pointer;
+  }
+  .logo-item .logo-text:hover{text-decoration:underline;}
+  .logo-item.active .logo-text{
+    font-size:24px; font-weight:700; line-height:28px; letter-spacing:-0.24px;
+  }
+  .logo-item .logo-img{
+    display:block; height:auto; max-height:24px; width:auto; max-width:100%; opacity:1;
+  }
+
+  /* ---- flip cards (promised / did) ---- */
+  .flip-card{
+    width:100%; height:324px;
+    opacity:0;
+    background:var(--bg-card);
+    border:1px solid var(--accent);
+    border-radius:0;
+    padding:22px;
+    text-align:center;
+    transform-style:preserve-3d;
+  }
+  .flip-card .title{
+    font-size:18px; line-height:22px; font-weight:500; color:var(--accent-dark);
+    margin:0 0 40px;
+  }
+  .flip-card .company{
+    font-family:var(--font-body); font-weight:700; font-size:24px; line-height:28px; letter-spacing:-0.24px;
+    color:var(--ink); margin:0 0 12px;
+    display:block; text-decoration:none; cursor:pointer;
+  }
+  .flip-card .company:hover{text-decoration:underline;}
+  .flip-card .copy{
+    font-size:18px; line-height:22px; font-weight:500; color:var(--ink); margin:0;
+  }
+  .company-ticker{display:none;}
+
+  /* ================= <900px: same pinned sequences, reflowed =================
+     The interactive timelines (tl1/tl2 below) now run at every width — this
+     block only reflows the SPATIAL layout for narrower screens; the pin,
+     scrub, reveal, flip and content-swap mechanics are unchanged. */
+  @media (max-width: 899px){
+    .stage{width:100%; height:min(560px, 75vh);}
+    #stage1{height:min(460px, 62vh);}
+    .textbox{width:92%; padding:20px 24px;}
+    .hs-box{padding:28px 24px;}
+
+    /* Sequence 2+3: no room to flank 300px-wide cards with 245px roster
+       columns under 900px — roster row above, cards stacked below instead.
+       The roster's "centered → split" translateX move is computed from
+       live geometry at setup (see the JS), so it adapts automatically to
+       wherever these columns naturally rest here; nothing to change there. */
+    #stage2{
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:20px;
+      position:relative; perspective:1400px;
+      width:100%; height:auto;
+      padding:0 20px;
+    }
+    #logoField{display:flex; gap:20px; justify-content:center; width:100%;}
+    #cardsLayer{display:flex; flex-direction:column; align-items:center; width:100%;}
+    .list-col.left{align-items:flex-end; width:140px; text-align:left;}
+    .list-col.right{align-items:flex-start; width:140px; text-align:right;}
+    /* fixed tall enough for the worst case (2-line bold active text) so the
+       logo↔text swap never reflows the column — same reasoning as the
+       desktop 28px version, just taller since columns are narrower here. */
+    .logo-item{height:56px; display:flex; align-items:center;}
+    .flip-card{width:100%; max-width:320px; height:auto; min-height:220px; padding:18px 22px;}
+    #cardPromised{margin-bottom:16px;}
+
+    /* Ticker of all 12 company names, current one leftmost — slides via a
+       GSAP x tween (see updateTicker in JS) rather than CSS, since its
+       position has to land exactly on the focused name's left edge. Its
+       own margin-bottom (not #cardsLayer's gap, which would also widen the
+       card-to-card gap above) sets the ticker→cards distance on its own —
+       80px matches .content-block's own padding-top at this width (see the
+       699px override below, which matches content-block's own breakpoint).
+       Spans the full viewport: width:100vw + margin calc(50% - 50vw) breaks
+       out of #cardsLayer's narrow column without the usual left:50% version
+       of this trick, which would be wrong here — left is a % of the
+       immediate containing block (#cardsLayer, ~300px), not the viewport,
+       so it wouldn't cancel out to a true full-bleed. The active name's
+       own screen position is set in JS (updateTicker), anchored to
+       cardPromised's left edge rather than this now much-wider container. */
+    .company-ticker{
+      display:block; overflow:hidden;
+      width:100vw; margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+      margin-bottom:80px;
+      mask-image:linear-gradient(to right, black calc(100% - 48px), transparent);
+      -webkit-mask-image:linear-gradient(to right, black calc(100% - 48px), transparent);
+    }
+    .ticker-track{display:flex; gap:22px; width:max-content;}
+    .ticker-track .ticker-name{
+      /* B3S Default */
+      flex:none; font-family:var(--font-body); font-weight:500; font-size:14px; line-height:16px;
+      color:var(--muted); background:none; border:none; border-bottom:2px solid transparent;
+      padding:0 0 3px; margin:0; cursor:pointer; white-space:nowrap;
+      transition:color .2s ease;
+    }
+    .ticker-track .ticker-name.active{
+      /* B1.5S Default */
+      font-size:18px; line-height:22px; color:var(--ink); border-bottom-color:var(--accent);
+    }
+  }
+
+  /* matches .content-block's own breakpoint (padding-top:56px there) so the
+     ticker→cards gap keeps tracking that same reference spacing below it */
+  @media (max-width: 699px){
+    .company-ticker{margin-bottom:56px;}
+  }
+
+  @media (max-width: 479px){
+    .list-col.left, .list-col.right{width:118px;}
+    #logoField{gap:12px;}
+    #stage1{height:min(380px, 56vh);}
+    .flip-card{padding:18px;}
+  }
+
+  @media (min-width: 900px){
+    #stage1{height:500px;}
+
+    /* Sequence 2+3 grid: roster columns + card columns are fixed grid
+       tracks from the start, so cards fading/rising in never repositions
+       the roster — nothing to "jump". #logoField/#cardsLayer are JS-built
+       wrapper divs; display:contents removes their own box so their
+       children (the two .list-col's and the two .flip-card's) become
+       direct grid items placed by the rules below. */
+    #stage2{
+      display:grid;
+      grid-template-columns:245px 300px 300px 245px;
+      column-gap:40px;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      perspective:1400px;
+      width:100%; max-width:1450px; height:auto;
+      margin:0 auto;
+      padding:0 40px;
+    }
+    #logoField, #cardsLayer{display:contents;}
+    .list-col.left{grid-column:1; grid-row:1; align-items:flex-end; width:245px; text-align:left;}
+    .list-col.right{grid-column:4; grid-row:1; align-items:flex-start; width:245px; text-align:right;}
+    /* Every row gets the same fixed-height slot (tall enough for the
+       largest state — the active/bold 28px text) and centers whatever's
+       actually showing inside it. Logo (24px), default text (16px line-
+       height) and active text (28px line-height) all occupy the identical
+       box, so swapping between them never changes the row's own height —
+       no reflow of the column, no jump, no stutter during the wipe. */
+    .logo-item{height:28px; display:flex; align-items:center;}
+    #cardPromised{grid-column:2; grid-row:1;}
+    #cardDid{grid-column:3; grid-row:1;}
+
+    /* The two roster columns are ALWAYS real grid items in their final
+       flanking columns (col 1 / col 4) — they never leave the grid and
+       never get position:absolute, so their vertical centering (the
+       grid's own align-items:center) never changes. The "centered, 60px
+       apart" starting look is just a horizontal translateX offset applied
+       in JS (see the x-offset setup below) that gets animated to 0 on
+       scroll, so the whole move is a straight horizontal line with zero
+       vertical component. */
+  }
+
+  /* ---------- footer / accountability CTA ---------- */
+  /* Matches the Figma "How to use" frame: at Large (>775px) the content
+     column spans 8 of the page grid's 12 columns — 8*100px cols + 7*16px
+     gaps = 912px at the 1440px reference — which, taken from columns 3–10,
+     is mathematically centered (2 columns of margin left over on each
+     side). Below 775px it collapses to the same full-width/32px-margin
+     (16px under 480px) pattern used by the other text panels. */
+  .footer-cta{background:var(--burnt); color:var(--paper); padding:200px 32px 90px;}
+  /* Figma's children (heading, eyebrow, steps row, text block) are all
+     left-aligned WITH EACH OTHER, not independently centered — the group
+     as a whole just needs to read as centered on the page. width:fit-content
+     makes .inner hug its widest child (the heading, normally) instead of
+     sitting at a fixed 912px — centering that tight box with margin:auto
+     lines every child's left edge up while the group still centers. The
+     912px max-width remains as the "8 columns" ceiling for how wide that
+     can get. */
+  .footer-cta .inner{
+    width:fit-content; max-width:912px; margin:0 auto;
+    display:flex; flex-direction:column; align-items:flex-start;
+  }
+  /* Heading→eyebrow, eyebrow→steps and steps→text-block gaps are 16/80/80
+     at every breakpoint per Figma (Large/Medium/Small all agree) — only
+     the steps' own internal arrangement changes with width. */
+  .footer-cta h2{
+    font-family:var(--font-heading); font-weight:400; font-size:60px; line-height:60px;
+    text-transform:uppercase; margin:0 0 16px;
+  }
+  .footer-cta .eyebrow{font-weight:700; font-size:24px; line-height:28px; letter-spacing:-0.24px; margin:0 0 80px;}
+  /* Large: 3 fixed-size boxes in a row. Medium/Small switch this to a CSS
+     grid (2 cols, then 1) below — grid auto-placement alone reproduces
+     Figma's "3rd box starts a new row, 4th cell empty" layout. */
+  .steps{display:flex; gap:16px; margin-bottom:80px; flex-wrap:wrap;}
+  .step{background:var(--paper); padding:10px; width:250px; flex:none;}
+  .step-box{
+    background:var(--ink); height:250px; width:100%; padding:20px; box-sizing:border-box;
+    display:flex; flex-direction:column; justify-content:space-between;
+  }
+  .step-box p{
+    font-family:var(--font-heading); font-weight:400; font-size:40px; line-height:40px;
+    color:var(--fire); text-transform:uppercase; margin:0;
+  }
+  .step-box .step-icon{width:32px; height:32px; display:block; flex:none;}
+  .footer-copy{max-width:712px;}
+  .footer-copy p{font-size:18px; line-height:22px; font-weight:500; margin:0 0 24px;}
+  .footer-copy p:last-of-type{margin-bottom:40px;}
+  /* the footer's own CTA is white, unlike the nav's fire-yellow one —
+     scoped here so the shared .btn-cta class stays untouched elsewhere. */
+  .footer-cta .btn-cta{background:var(--accent-ink);}
+
+  @media (max-width:775px){
+    .footer-cta{padding-top:56px; padding-bottom:56px;}
+    .footer-cta .inner{width:auto; max-width:none; align-items:stretch;}
+    /* everything else should stretch full-width here, but the button
+       itself stays shrink-to-fit per Figma (align-items:stretch above
+       would otherwise force it edge-to-edge too). */
+    .footer-cta .btn-cta{align-self:flex-start;}
+    /* heading/eyebrow/step-label sizes stay the same as Large at every
+       breakpoint per Figma — only the steps' own layout changes below. */
+    .steps{
+      display:grid; grid-template-columns:repeat(2, 1fr); gap:16px;
+      margin-bottom:40px;
+    }
+    .step{width:auto; max-width:none;}
+    .step-box{
+      /* fluid grid columns mean the box can end up narrower than Figma's
+         310px reference, wrapping the label to more lines than it
+         accounted for — min-height (not a fixed height) lets the box grow
+         instead of clipping/overflowing that text. */
+      height:auto; min-height:160px;
+      flex-direction:row; justify-content:flex-start; align-items:flex-start; gap:16px;
+    }
+    .step-box p{flex:1 1 0; min-width:0;}
+  }
+  @media (max-width:479px){
+    .footer-cta{padding-left:16px; padding-right:16px;}
+    .steps{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="brand">
+      <img class="icon" src="assets/brand/icon.svg" alt="">
+      <img class="type" src="assets/brand/type.svg" alt="The Black Cat">
+    </div>
+    <div class="nav-right">
+      <div class="nav-tabs">
+        <a href="#" class="active" aria-current="page">Campaigns</a>
+        <a href="#">Methodology</a>
+        <a href="#">About Us</a>
+      </div>
+      <a class="btn-cta" href="#">Write us <img src="assets/brand/arrow.svg" alt=""></a>
+    </div>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <img class="hero-img" src="assets/brand/Campaign-DEI_Hero.webp" alt="DEI Dirty Dozen — They pledged. They folded. We kept the receipts.">
+
+  <!-- ===================== INTRO COPY ===================== -->
+  <section class="content-block">
+    <h2>Remember the summer of 2020?</h2>
+    <p>The World Was Watching as millions of us took to the streets to protest. Some of the biggest names in corporate America made promises: Open contracts to Black-owned businesses. Promote Black workers. Fund scholarships. Back the community groups already doing the work. They put it in press releases and annual reports. They put it in commercials. They asked us to believe them.</p>
+    <p>So many of us did.</p>
+  </section>
+
+  <section class="content-block">
+    <h2>They broke their promise.</h2>
+    <p>Then many of these companies broke their promises and walked back their commitments. They renamed programs and took away their teeth. Others walked away completely — ending programs and funding pledged in those promises. Their actions left harm and pain in their wake.</p>
+    <p>Careers stalled. Impact organizations were neutralized. Inventories were abandoned. Costs were passed on to us. Six years after the Pandemic, we are living in the wake of deferred dreams, quietly carrying the real costs of broken promises.</p>
+  </section>
+
+  <!-- ===================== HIDDEN STORIES ===================== -->
+  <section class="hidden-stories">
+    <div class="hs-box">
+      <p class="hs-title">THE HIDDEN STORIES</p>
+      <p class="hs-copy">Target committed to spending more than $2 billion with Black-led businesses by 2025. The effort aimed create more equitable experiences for Black guests and economic opportunity beyond its own stores.</p>
+      <p class="hs-copy">In January of 2025, Target scaled back its DEI initiatives. This walk back has created uncertainty about distribution, visibility, and consumer demand for Black-owned brands. Without internal advocacy through mentorship and previously pledged financial support, retailers already in partnership with Target were left to fend for themselves.</p>
+    </div>
+  </section>
+
+  <!-- ===================== SEQUENCE 1: storyboard cycle (pinned) ===================== -->
+  <section class="story" id="seq1Story">
+    <div class="stage" id="stage1">
+
+      <div class="sketch-box" id="sketchBox">
+        <div class="sketch-img hs-frame" data-step="0">
+          <div class="hs-box">
+            <p class="hs-title">THE HIDDEN STORIES</p>
+            <p class="hs-copy">Target committed to spending more than $2 billion with Black-led businesses by 2025. The effort aimed create more equitable experiences for Black guests and economic opportunity beyond its own stores.</p>
+            <p class="hs-copy">In January of 2025, Target scaled back its DEI initiatives. This walk back has created uncertainty about distribution, visibility, and consumer demand for Black-owned brands. Without internal advocacy through mentorship and previously pledged financial support, retailers already in partnership with Target were left to fend for themselves.</p>
+          </div>
+        </div>
+        <img class="sketch-img active" data-step="1" src="assets/storyboard/1.webp" alt="Target pulls a Black-owned haircare brand's product off the shelf during a sale.">
+        <img class="sketch-img" data-step="2" src="assets/storyboard/2.webp" alt="The merchant reviews falling sales projections and a marketing funding gap.">
+        <img class="sketch-img" data-step="3" src="assets/storyboard/3.webp" alt="Unsold inventory sits in a warehouse as the product moves online-only.">
+        <img class="sketch-img" data-step="4" src="assets/storyboard/4.webp" alt="A once fully-stocked, featured shelf display now sits nearly empty and on sale.">
+      </div>
+
+      <div class="textbox-layer" id="textboxLayerSeq1">
+        <div class="textbox" data-step="1"><p>In 2025, Target removed a hair-tool merchant’s product from its physical shelves after sales declined.</p></div>
+        <div class="textbox" data-step="2"><p>The merchant couldn’t access the capital needed to market once the product was no longer highlighted.</p></div>
+        <div class="textbox" data-step="3"><p>Her inventory became stagnant by Target’s standards and her own. In 2026, the product is now sold only online via Target’s website.</p></div>
+        <div class="textbox" data-step="4"><p>Target was considered the gold standard of “making it” for Black merchants. The partnership, along with the promised support, allowed her and other Black-owned brands to reach audiences they could not reach alone. It was the equivalent of the “Netflix special” comedians work to achieve. Not so anymore.</p></div>
+      </div>
+
+    </div>
+    <div class="progress" id="progressSeq1"></div>
+  </section>
+
+  <!-- ===================== ACCOUNTABILITY COPY ===================== -->
+  <section class="content-block content-block--roomy">
+    <h2>It’s time for accountability</h2>
+    <p>The DEI Dirty Dozen is the first campaign on TheBlackCAT, the Corporate Accountability Tracker from Color Of Change. It is our list of twelve companies that made specific promises to Black workers, Black-owned businesses, and Black communities, then later pulled back.</p>
+    <p>This is the beginning, not the end. More corporations will be in the spotlight as we hold them to account for the harm they do to our communities.</p>
+    <p>We created this resource for those people, people like you, who’ve been harmed by companies that operate as if the legend of their brands excuses their record of harm in the Black community.</p>
+    <p>We have that record. We tell you what we know, what we do not, and what the company says in response. For each company, we follow the promise they made from start to finish. Beginning with what was said. Who did what and who took back what they said. Who paid the price. And what it would take to make it right.</p>
+    <p>We also name the ones who stood on business and stayed the course, kept their promises, and remained allies and champions. We show how and what they delivered.</p>
+    <p>See how TheBlackCAT keeps the record.</p>
+  </section>
+
+  <!-- ===================== SEQUENCE 2+3: logos → roster → cards (pinned) ===================== -->
+  <section class="story" id="seq23Story">
+    <div class="stage" id="stage2">
+
+      <div class="textbox-layer" id="textboxLayerSeq2">
+        <div class="textbox" data-step="5"><p>Target isn’t alone. These are the twelve companies on the record — keep scrolling to see what each one promised, and what they did instead.</p></div>
+      </div>
+
+      <div class="logo-field" id="logoField">
+        <!-- 12 items injected by JS, 6 left / 6 right -->
+      </div>
+
+      <div class="cards-layer" id="cardsLayer">
+        <div class="company-ticker" id="companyTicker"><div class="ticker-track" id="tickerTrack"></div></div>
+        <div class="flip-card" id="cardPromised">
+          <p class="title">What they promised</p>
+          <a class="company" id="cardPromisedCompany" href="#">—</a>
+          <p class="copy" id="cardPromisedCopy">—</p>
+        </div>
+        <div class="flip-card" id="cardDid">
+          <p class="title">What they did</p>
+          <a class="company" id="cardDidCompany" href="#">—</a>
+          <p class="copy" id="cardDidCopy">—</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="progress" id="progressSeq23"></div>
+  </section>
+
+  <!-- ===================== FOOTER / HOW TO USE ===================== -->
+  <section class="footer-cta">
+    <div class="inner">
+      <h2>How to Use the DEI Dirty Dozen</h2>
+      <p class="eyebrow">Three Steps to Take</p>
+
+      <div class="steps">
+        <div class="step"><div class="step-box"><p>Read the record.</p><img class="step-icon" src="assets/brand/file-text.svg" alt=""></div></div>
+        <div class="step"><div class="step-box"><p>Share the link.</p><img class="step-icon" src="assets/brand/share-network.svg" alt=""></div></div>
+        <div class="step"><div class="step-box"><p>Decide where you stand</p><img class="step-icon" src="assets/brand/hand-fist.svg" alt=""></div></div>
+      </div>
+
+      <div class="footer-copy">
+        <p>We are asking for repair for the harm. Pay what was promised. Make people whole for the costs they took on when the trust was broken. Restore access to contracts and careers. Put the safeguards back.</p>
+        <p>A company comes off the list when it restores what it ended, it reports these changes publicly, and the record shows how long the changes have been in effect. We credit changed behavior. We don’t hand out forgiveness.</p>
+      </div>
+
+      <a class="btn-cta" href="#">Write us <img src="assets/brand/arrow.svg" alt=""></a>
+    </div>
+  </section>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script>
+(function(){
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Every link in this prototype (nav tabs, CTA, company names) is a
+  // placeholder with no real destination yet — href="#" on its own still
+  // jumps the browser to the top of the document on click, which on a page
+  // built from several pinned full-height sections reads as the page
+  // reloading/resetting. Swallow that default until real URLs exist.
+  document.addEventListener('click', function(e){
+    var link = e.target.closest('a[href="#"]');
+    if (link) e.preventDefault();
+  });
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Target leads the left column (bold/active), matching the Figma roster.
+  var leftCompanies  = ['Target','Walmart','Verizon','Boeing','IBM','Salesforce'];
+  var rightCompanies = ['Meta','Google','Pepsico','John Deere','Victoria’s Secret','Uber'];
+
+  // real logo marks, cropped out of the Figma file's own assets
+  var logoAssetFile = {
+    'Target': 'assets/logos/target.svg',
+    'Walmart': 'assets/logos/cropped/walmart.png',
+    'Verizon': 'assets/logos/cropped/verizon.png',
+    'Boeing': 'assets/logos/cropped/boeing.png',
+    'IBM': 'assets/logos/cropped/ibm.png',
+    'Salesforce': 'assets/logos/cropped/salesforce.png',
+    'Meta': 'assets/logos/cropped/meta.png',
+    'Google': 'assets/logos/cropped/google.png',
+    'Pepsico': 'assets/logos/cropped/pepsico.png',
+    'John Deere': 'assets/logos/cropped/johndeere.png',
+    'Victoria’s Secret': 'assets/logos/cropped/victoriassecret.png',
+    'Uber': 'assets/logos/cropped/uber.png'
+  };
+
+  // positional, matching leftCompanies/rightCompanies index-for-index —
+  // Target, Walmart, Verizon, Boeing, IBM, Salesforce / Meta, Google,
+  // Pepsico, John Deere, Victoria's Secret, Uber.
+  var promisedCopyLeft = [
+    'More than $2B with Black-owned businesses by 2025',
+    '$100M Center for Racial Equity',
+    '$10M to groups including the NAACP and the National Urban League',
+    'Increase Black US representation by 20%',
+    'Backed OneTen, a coalition to train Black workers for 1 million professional jobs over ten years',
+    'Double Black representation in leadership by 2023'
+  ];
+  var didCopyLeft = [
+    'Ended REACH, its racial equity initiative, on Jan. 24, 2025',
+    'Nov. 25, 2024, three weeks after the election: let the Center wind down, ended racial equity training, and stopped giving minority-owned suppliers priority',
+    'Ended all DEI policies while seeking federal approval to buy Frontier',
+    'Dismantled its DEI department in October 2024, before the election',
+    'Ended its DEI department in April 2025',
+    'Dropped its diversity hiring goals in March 2025'
+  ];
+  var promisedCopyRight = [
+    'At least $100M a year with Black-owned suppliers',
+    '$175M for racial equity programs and a 30% leadership representation goal',
+    '$570M over five years to expand opportunity for Black and Hispanic people',
+    'A coalition for Black farmers, formed days after a Black farmers’ boycott',
+    'A goal for promoting Black workers',
+    '$10M for Black-owned businesses; double Black directors by 2025'
+  ];
+  var didCopyRight = [
+    'Ended supplier diversity and its DEI team on Jan. 10, 2025, ten days before the inauguration',
+    'Dropped its diversity hiring goals',
+    'Ended its representation goals in February 2025',
+    'Pulled back in July 2024 after activist pressure',
+    'Halted that goal in March 2025',
+    'Ended the link between executive pay and diversity in October 2026'
+  ];
+
+  // ---- build logo field: two real flex columns, populated once. Logos
+  // never get reparented or repositioned by %-coordinates — they live in
+  // their final column from the start and only their own opacity/clip-path/
+  // font-size change, which is what makes the column alignment unbreakable.
+  var logoField = document.getElementById('logoField');
+  var colLeft = document.createElement('div');
+  colLeft.className = 'list-col left';
+  var colRight = document.createElement('div');
+  colRight.className = 'list-col right';
+  logoField.appendChild(colLeft);
+  logoField.appendChild(colRight);
+
+  function makeLogoItem(name, side, idx){
+    var el = document.createElement('div');
+    el.className = 'logo-item';
+    el.dataset.side = side;
+    el.dataset.idx = idx;
+    el.dataset.name = name;
+
+    var mask = document.createElement('span');
+    mask.className = 'mask';
+    var content = document.createElement('span');
+    content.className = 'content';
+    var text = document.createElement('a');
+    text.className = 'logo-text';
+    text.href = '#';
+    text.textContent = name;
+    var img = document.createElement('img');
+    img.className = 'logo-img';
+    img.src = logoAssetFile[name];
+    img.alt = name;
+    content.appendChild(text);
+    content.appendChild(img);
+    mask.appendChild(content);
+    // clip-path goes on the IMAGE itself, not this wrapper — inset()
+    // percentages are computed against the clipped element's OWN box, and
+    // .content/.mask are sized by the (much narrower) text label, not the
+    // logo image, so clipping them cuts the image off at a meaningless point.
+    img.style.clipPath = side === 'left' ? 'inset(0 0 0 100%)' : 'inset(0 100% 0 0)';
+    el.appendChild(mask);
+    return el;
+  }
+
+  var leftItems = leftCompanies.map(function(name, i){ return makeLogoItem(name, 'left', i); });
+  var rightItems = rightCompanies.map(function(name, i){ return makeLogoItem(name, 'right', i); });
+
+  leftItems.forEach(function(el){ colLeft.appendChild(el); });
+  rightItems.forEach(function(el){ colRight.appendChild(el); });
+
+  var allLogoItems = leftItems.concat(rightItems);
+
+  // order L1,R1,L2,R2,...,L6,R6 — Target (L1) leads
+  var order = [];
+  for (var i = 0; i < 6; i++){
+    order.push({side:'left', idx:i, name:leftCompanies[i]});
+    order.push({side:'right', idx:i, name:rightCompanies[i]});
+  }
+
+  function itemFor(side, idx){
+    return allLogoItems.filter(function(el){ return el.dataset.side === side && +el.dataset.idx === idx; })[0];
+  }
+
+  // ---- company ticker (medium/small only — hidden ≥900px via CSS): all 12
+  // names in scroll order, the focused one pinned at the left edge. Its
+  // position has to land exactly on the focused name's offsetLeft, which a
+  // CSS transition can't target, so it's driven by a GSAP x tween instead
+  // (see updateTicker, called from setCardContent below).
+  var tickerTrack = document.getElementById('tickerTrack');
+  var tickerNameEls = order.map(function(entry){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'ticker-name';
+    btn.textContent = entry.name;
+    tickerTrack.appendChild(btn);
+    return btn;
+  });
+  tickerTrack.addEventListener('click', function(e){
+    var btn = e.target.closest('.ticker-name');
+    if (btn) jumpToCompanyDesktop(btn.textContent.trim());
+  });
+  function updateTicker(entry){
+    var k = order.findIndex(function(o){ return o.side === entry.side && o.idx === entry.idx; });
+    tickerNameEls.forEach(function(el, i){ el.classList.toggle('active', i === k); });
+    var activeEl = tickerNameEls[k];
+    if (!activeEl) return;
+    // The ticker now spans the full viewport (see .company-ticker CSS), so
+    // the active name doesn't align to ITS OWN container's edge any more —
+    // it aligns to the card's left edge instead, same as before the ticker
+    // was widened. That's NOT #cardsLayer's own left edge except at the
+    // narrowest widths: #cardsLayer is full-width (#stage2's width minus
+    // its 20px padding), while .flip-card caps at max-width:320px and sits
+    // centered inside it via align-items:center, so above ~360px viewport
+    // width the card's true left edge sits well inside #cardsLayer's. Work
+    // it out from that centering math (cardsLayer's rect + half the slack
+    // between its width and the card's capped width) rather than reading
+    // cardPromised's own rect directly — cardPromised 3D-rotates during its
+    // flip (rotateY), which shifts its projected bounding-box edges under
+    // perspective while mid-flip, and updateTicker can run while that's
+    // still happening; #cardsLayer never gets a transform (only its height
+    // is tweened), so it stays a reliable, unrotated reference throughout.
+    var cardsLayerRect = document.getElementById('cardsLayer').getBoundingClientRect();
+    var cardWidth = Math.min(cardsLayerRect.width, 320);
+    var anchorLeft = cardsLayerRect.left + (cardsLayerRect.width - cardWidth) / 2;
+    var activeRect = activeEl.getBoundingClientRect();
+    var currentX = gsap.getProperty(tickerTrack, 'x');
+    gsap.to(tickerTrack, {x: anchorLeft - activeRect.left + currentX, duration:0.5, ease:'power2.out'});
+  }
+
+  // ---- "click a company name" navigation ----
+  // Scroll-driven: scrub:1 maps scroll position linearly onto tl2's
+  // timeline progress, so "jump to this company" means computing the
+  // scroll position that corresponds to its settled, fully-flipped-in
+  // moment on tl2 and scrolling there — the existing scrub logic then
+  // paints the right cards/active state/ticker position exactly as if the
+  // user had scrolled there themselves.
+  function jumpToCompanyDesktop(name){
+    var st = ScrollTrigger.getById('seq23');
+    if (!st || !st.animation) return false;
+    var tl = st.animation;
+    var k = order.findIndex(function(o){ return o.name === name; });
+    if (k < 0 || !tl.labels) return false;
+    var time;
+    if (k === 0){
+      time = tl.labels.step1 + 0.05; // just after the cards finish rising
+    } else if (k === order.length - 1){
+      time = tl.labels['step' + k] + 1.0; // its own flip-back has no later label to anchor to
+    } else {
+      time = tl.labels['step' + (k + 1)] + 0.05; // right after the flip that reveals it
+    }
+    if (time == null) return false;
+    var dur = tl.duration();
+
+    // Seek the timeline straight to that moment with events suppressed.
+    // Without suppression, GSAP fires every per-step flip/content call
+    // between the current position and this one — each reading scroll
+    // direction to decide what to show — so you'd see every in-between
+    // company flash through on the way, and since this is a programmatic
+    // jump (not a real scroll), that direction reading is unreliable
+    // anyway. All the tween-driven geometry (reveal, roster split, card
+    // rise/rotation, row opacity) still renders correctly at the target
+    // time regardless of suppression; only the couple of one-off side
+    // effects normally done by those suppressed calls need setting by hand
+    // below.
+    tl.progress(time / dur, true);
+
+    // every row has long since swapped from its logo to its company name
+    // by any 'stepN' position — force that explicitly, since the swap
+    // itself is a suppressed call(), not a tween, and clear any stale
+    // highlight before applying the one we actually want.
+    allLogoItems.forEach(function(el){
+      var img = el.querySelector('.logo-img');
+      var txt = el.querySelector('.logo-text');
+      if (img) img.style.display = 'none';
+      if (txt) txt.style.display = 'inline-block';
+      el.classList.remove('active');
+    });
+    var target = order[k];
+    var targetEl = itemFor(target.side, target.idx);
+    if (targetEl) targetEl.classList.add('active');
+    setCardContent(target);
+
+    var y = st.start + (time / dur) * (st.end - st.start);
+    window.scrollTo(0, y);
+    // keep ScrollTrigger's own bookkeeping in sync for whatever scrolling
+    // happens next — harmless here since animation progress already
+    // matches, so there's nothing left for it to animate toward.
+    ScrollTrigger.update();
+    return true;
+  }
+
+  document.addEventListener('click', function(e){
+    // the clickable company name is a `.logo-text` link on top of the
+    // `.logo-img` — but only ONE of the two is ever actually visible/in
+    // flow at a time (see the comment by .logo-item .content above), and
+    // on mobile .logo-text never becomes visible at all (that cycling only
+    // runs on desktop), so the whole `.logo-item` is the real hit target,
+    // not just the <a> inside it.
+    var companyLink = e.target.closest('a.company');
+    var logoItem = e.target.closest('.logo-item');
+    var name = companyLink ? companyLink.textContent.trim() : (logoItem ? logoItem.dataset.name : null);
+    if (!name) return;
+    jumpToCompanyDesktop(name);
+  });
+
+  // ---- card content ----
+  var cardPromisedCompany = document.getElementById('cardPromisedCompany');
+  var cardPromisedCopy = document.getElementById('cardPromisedCopy');
+  var cardDidCompany = document.getElementById('cardDidCompany');
+  var cardDidCopy = document.getElementById('cardDidCopy');
+  var cardPromised = document.getElementById('cardPromised');
+  var cardDid = document.getElementById('cardDid');
+
+  function setCardContent(entry){
+    var copy = entry.side === 'left' ? promisedCopyLeft[entry.idx] : promisedCopyRight[entry.idx];
+    var copy2 = entry.side === 'left' ? didCopyLeft[entry.idx] : didCopyRight[entry.idx];
+    cardPromisedCompany.textContent = entry.name;
+    cardPromisedCopy.textContent = copy;
+    cardDidCompany.textContent = entry.name;
+    cardDidCopy.textContent = copy2;
+    updateTicker(entry);
+  }
+
+  // ---- progress dots (one row per pinned section) ----
+  function buildProgress(id, total){
+    var el = document.getElementById(id);
+    for (var p = 0; p < total; p++){ el.appendChild(document.createElement('i')); }
+    var dots = el.querySelectorAll('i');
+    return function(beatIndex){
+      dots.forEach(function(d, i){ d.classList.toggle('active', i === beatIndex); });
+    };
+  }
+
+  var sketchBox = document.getElementById('sketchBox');
+  var sketchImgs = Array.prototype.slice.call(document.querySelectorAll('.sketch-img'));
+  function setSketchFrame(n){
+    sketchImgs.forEach(function(img){ img.classList.toggle('active', +img.dataset.step === n); });
+  }
+  var seq1Textboxes = Array.prototype.slice.call(document.querySelectorAll('#textboxLayerSeq1 .textbox'));
+  var seq2Textbox = document.querySelector('#textboxLayerSeq2 .textbox');
+  var allTextboxes = seq1Textboxes.concat([seq2Textbox]);
+
+  // ===================================================================
+  // Two independent pinned, scrubbed timelines, running at every width —
+  // Sequence 1 (storyboard cycle) mid-page, Sequence 2+3 (logos → roster →
+  // cards) near the end.
+  // ===================================================================
+  var mm = gsap.matchMedia();
+
+  function initSequences(){
+  mm.add('(min-width: 0px)', function(){
+
+    var BEAT_VH = reduced ? 20 : 85;
+
+    // ---------------- Sequence 1: storyboard cycle ----------------
+    var stage1 = document.getElementById('stage1');
+    var stage1H = stage1.getBoundingClientRect().height;
+
+    gsap.set(seq1Textboxes, {xPercent:-50, yPercent:-50, opacity:0});
+    var travel1 = seq1Textboxes.map(function(box){
+      return stage1H / 2 + box.offsetHeight / 2 + 40;
+    });
+    seq1Textboxes.forEach(function(box, i){ gsap.set(box, {y: travel1[i]}); });
+    gsap.set(sketchBox, {opacity:1});
+    // frame 0 ("Hidden Stories") opens the sequence instead of the first
+    // illustration — the HTML markup still marks step 1 active by default
+    // so mobile (which never runs this timeline) keeps showing the real
+    // illustration unchanged.
+    setSketchFrame(0);
+
+    var TOTAL_BEATS_1 = 5; // Hidden Stories intro + 4 storyboard/caption cycles
+    var setDot1 = buildProgress('progressSeq1', TOTAL_BEATS_1);
+
+    var tl1 = gsap.timeline({
+      scrollTrigger:{
+        trigger:'#seq1Story',
+        start:'top top',
+        end:'+=' + (TOTAL_BEATS_1 * BEAT_VH) + '%',
+        scrub:1,
+        pin:true,
+        anticipatePin:1,
+        onUpdate: function(self){
+          setDot1(Math.min(TOTAL_BEATS_1 - 1, Math.floor(self.progress * TOTAL_BEATS_1)));
+        }
+      },
+      defaults:{ease:'power1.inOut'}
+    });
+
+    // ---- beat 0: the Hidden Stories card holds on screen, then dissolves
+    // into the first illustration using the exact same whole-box fade the
+    // loop below uses between every other frame — no caption-card travel
+    // here since the card itself IS the text.
+    tl1.addLabel('beat0');
+    tl1.to({}, {duration:1.5});
+    tl1.to(sketchBox, {opacity:0, duration:0.3}, '+=0.2');
+    tl1.call(function(){
+      var dir = tl1.scrollTrigger ? tl1.scrollTrigger.direction : 1;
+      setSketchFrame(dir < 0 ? 0 : 1);
+    });
+    tl1.to(sketchBox, {opacity:1, duration:0.3});
+
+    // Opacity is split off from the position tween: it ramps to 1 quickly at
+    // the start of the entrance and only fades at the very end of the exit,
+    // so the card reads at full opacity for nearly its entire time on screen
+    // instead of fading in/out across the whole travel. The storyboard panel
+    // only swaps (with its own visible dissolve) once the caption has fully
+    // left.
+    for (var s = 0; s < 4; s++){
+      var box = seq1Textboxes[s];
+      tl1.addLabel('beat' + (s + 1));
+      tl1.to(box, {y:0, duration:1});
+      tl1.to(box, {opacity:1, duration:0.22}, '<');
+      tl1.to(box, {y:-travel1[s], duration:1}, '+=0.3');
+      tl1.to(box, {opacity:0, duration:0.22}, '<+=0.78');
+      if (s < 3){
+        tl1.to(sketchBox, {opacity:0, duration:0.3}, '+=0.2');
+        tl1.call(function(forwardIdx, backIdx){
+          var dir = tl1.scrollTrigger ? tl1.scrollTrigger.direction : 1;
+          setSketchFrame(dir < 0 ? backIdx : forwardIdx);
+        }, [s + 2, s + 1]);
+        tl1.to(sketchBox, {opacity:1, duration:0.3});
+      }
+    }
+
+    // ---------------- Sequence 2+3: logos → roster → cards ----------------
+    var stage2 = document.getElementById('stage2');
+    var stage2H = stage2.getBoundingClientRect().height;
+    // Below 900px the roster sits above the cards (stacked, not flanking)
+    // instead — rows + both cards together don't fit a pinned 100vh frame
+    // at once, so the roster collapses away once the cards rise (see
+    // morphToList below), freeing the space instead of overlapping it.
+    var stage2Wide = window.innerWidth >= 900;
+    var cardsLayer = document.getElementById('cardsLayer');
+    if (!stage2Wide){
+      // the cards' y:stage2H transform below hides them visually, but a
+      // transform never removes an element from layout — #cardsLayer's
+      // full natural height (~2 stacked cards) would still be reserved
+      // the whole time, well before the cards actually rise, which is
+      // what was pushing the roster+cards combo taller than the pinned
+      // viewport even during the roster-only phase. Collapsing it to 0
+      // until morphToList (see below) means it only claims space once
+      // the cards are actually on their way up.
+      gsap.set(cardsLayer, {height:0, overflow:'hidden'});
+    }
+
+    gsap.set(seq2Textbox, {xPercent:-50, yPercent:-50, opacity:0});
+    var travel2 = stage2H / 2 + seq2Textbox.offsetHeight / 2 + 40;
+    gsap.set(seq2Textbox, {y: travel2});
+    gsap.set([cardPromised, cardDid], {y: stage2H, opacity:0});
+
+    // The roster columns are real grid items the whole time (col 1 / col 4,
+    // row 1) — they never toggle out of the grid. The "centered, 60px gap"
+    // starting look is faked with a pure translateX offset on top of that
+    // resting grid position: measure each column's natural grid x, measure
+    // where "centered with a 60px gap" would put it, and set x to the
+    // difference. Animating that x to 0 later is then a dead-straight
+    // horizontal move — no vertical component is ever touched, so there's
+    // nothing for the transition to drift up/down on.
+    var listLeft = document.querySelector('.list-col.left');
+    var listRight = document.querySelector('.list-col.right');
+    var leftNaturalX = listLeft.getBoundingClientRect().left;
+    var rightNaturalX = listRight.getBoundingClientRect().left;
+    var listWidth = listLeft.getBoundingClientRect().width;
+    var stageCenterX = stage2.getBoundingClientRect().left + stage2.getBoundingClientRect().width / 2;
+    var leftCenteredX = stageCenterX - 30 - listWidth;
+    var rightCenteredX = stageCenterX + 30;
+    var leftCollapsedOffset = leftCenteredX - leftNaturalX;
+    var rightCollapsedOffset = rightCenteredX - rightNaturalX;
+    gsap.set(listLeft, {x: leftCollapsedOffset});
+    gsap.set(listRight, {x: rightCollapsedOffset});
+
+    // rows top-to-bottom: rows[0] = Target/Meta, rows[5] = Salesforce/Uber.
+    // rowOffsetY[i] is each row's vertical distance from the stage's own
+    // center (negative = above center, positive = below) — measured now,
+    // while every row is still the same 24px logo-image height, so the
+    // measurement is stable regardless of later crossfades.
+    var logoRows = [];
+    var rowOffsetY = [];
+    (function(){
+      var stageRect = stage2.getBoundingClientRect();
+      var stageCenterY = stageRect.top + stageRect.height / 2;
+      for (var ri = 0; ri < 6; ri++){
+        var row = [itemFor('left', ri), itemFor('right', ri)];
+        logoRows.push(row);
+        var r = row[0].getBoundingClientRect();
+        rowOffsetY.push((r.top + r.height / 2) - stageCenterY);
+      }
+    })();
+
+    var TOTAL_BEATS_2 = 3 + (order.length - 1); // reveal + caption + morph + 11 highlight steps
+    var setDot2 = buildProgress('progressSeq23', TOTAL_BEATS_2);
+
+    var tl2 = gsap.timeline({
+      scrollTrigger:{
+        id:'seq23',
+        trigger:'#seq23Story',
+        start:'top top',
+        end:'+=' + (TOTAL_BEATS_2 * BEAT_VH) + '%',
+        scrub:1,
+        pin:true,
+        anticipatePin:1,
+        onUpdate: function(self){
+          setDot2(Math.min(TOTAL_BEATS_2 - 1, Math.floor(self.progress * TOTAL_BEATS_2)));
+        }
+      },
+      defaults:{ease:'power1.inOut'}
+    });
+
+    // ---- logos mask-reveal ----
+    tl2.addLabel('reveal');
+    tl2.to(leftItems.map(function(el){ return el.querySelector('.logo-img'); }),
+      {clipPath:'inset(0 0 0 0%)', duration:0.9, stagger:0.06});
+    tl2.to(rightItems.map(function(el){ return el.querySelector('.logo-img'); }),
+      {clipPath:'inset(0 0% 0 0)', duration:0.9, stagger:0.06}, '<');
+
+    // ---- caption over logos, with each row's logo->text wipe synced to
+    // the caption card's own travel so every row genuinely swaps while the
+    // card is passing over it — rows below center get wiped as the card
+    // rises INTO view (entrance); rows at/above center get wiped as it
+    // rises OUT of view (exit). Since the card enters from below and exits
+    // above, this naturally starts at the bottom row and ends at the top.
+    tl2.addLabel('caption');
+    tl2.addLabel('entranceStart', '+=0.3');
+    tl2.to(seq2Textbox, {y:0, duration:1}, 'entranceStart');
+    tl2.to(seq2Textbox, {opacity:1, duration:0.22}, 'entranceStart');
+    tl2.addLabel('exitStart', 'entranceStart+=1.3');
+    tl2.to(seq2Textbox, {y:-travel2, duration:1}, 'exitStart');
+    tl2.to(seq2Textbox, {opacity:0, duration:0.22}, 'exitStart+=0.78');
+    // guaranteed end-of-caption marker — the per-row calls below are added
+    // out of chronological order (bottom row fires early in the entrance,
+    // top row fires late in the exit), which would otherwise leave the
+    // timeline's insertion cursor sitting wherever the LAST one in array
+    // order happens to land, not at the true end of the sequence.
+    tl2.addLabel('captionDone', 'exitStart+=1');
+
+    // Each row's crossfade is built directly out of real tl2.to() tweens
+    // (not a real-time gsap.to() fired from a call()), so its opacity is a
+    // pure function of scroll/scrub position — exactly as smooth and
+    // instantly reversible as everything else on this timeline, with no
+    // wall-clock animation left running after you stop scrolling.
+    var ROW_FADE = 0.12;
+    logoRows.forEach(function(row, idx){
+      var offset = rowOffsetY[idx];
+      var onEnter = offset > 0;
+      var frac = onEnter
+        ? Math.max(0, Math.min(1, 1 - offset / travel2))
+        : Math.max(0, Math.min(1, -offset / travel2));
+      var pos = (onEnter ? 'entranceStart' : 'exitStart') + '+=' + frac.toFixed(3);
+      var imgs = row.map(function(el){ return el.querySelector('.logo-img'); });
+      var texts = row.map(function(el){ return el.querySelector('.logo-text'); });
+      tl2.to(imgs, {opacity:0, duration:ROW_FADE}, pos);
+      tl2.call(function(){
+        var dir = tl2.scrollTrigger ? tl2.scrollTrigger.direction : 1;
+        if (idx === 0){
+          itemFor('left', 0).classList.toggle('active', dir >= 0);
+        }
+        if (dir < 0){
+          texts.forEach(function(tx){ tx.style.display = 'none'; });
+          imgs.forEach(function(im){ im.style.display = 'block'; });
+        } else {
+          imgs.forEach(function(im){ im.style.display = 'none'; });
+          texts.forEach(function(tx){ tx.style.display = 'inline-block'; });
+        }
+      }, null, pos + '+=' + ROW_FADE);
+      tl2.to(texts, {opacity:1, duration:ROW_FADE}, pos + '+=' + ROW_FADE);
+    });
+
+    // ---- logos morph into list, cards slide up ----
+    // The roster columns split apart from "centered" to their flanking
+    // grid columns by animating the translateX offset set up above
+    // straight to 0 — a real scrubbed tween on tl2 itself, so (like
+    // everything else here) it's a pure function of scroll position: no
+    // real-time animation left running after you stop scrolling, and
+    // scrubbing back up un-spreads the columns automatically since GSAP
+    // just reverses the same tween, no direction branching needed.
+    tl2.addLabel('morphToList', 'captionDone+=0.4');
+    tl2.to(listLeft, {x:0, duration:1, ease:'power2.inOut'}, 'morphToList');
+    tl2.to(listRight, {x:0, duration:1, ease:'power2.inOut'}, '<');
+    if (!stage2Wide){
+      tl2.to(logoField, {height:0, opacity:0, duration:0.6, ease:'power1.inOut'}, 'morphToList');
+      tl2.to(cardsLayer, {height:'auto', duration:1}, 'morphToList');
+    }
+    tl2.to([cardPromised, cardDid], {y:0, duration:1}, '<');
+    tl2.to([cardPromised, cardDid], {opacity:1, duration:0.25}, '<');
+    tl2.call(function(){ setCardContent(order[0]); });
+
+    // ---- highlight steps L1(default) -> R1 -> L2 -> ... -> R6 ----
+    // Each step's call branches on scroll direction: forward moves the
+    // highlight/card to `cur`, backward moves it back to `prev` — the exact
+    // inverse — so scrubbing up steps the roster backward one company at a
+    // time instead of re-applying the forward step again.
+    for (var step = 1; step < order.length; step++){
+      (function(stepIndex){
+        tl2.addLabel('step' + stepIndex);
+        tl2.to([cardPromised, cardDid], {rotateY:90, duration:0.35, ease:'power1.in'}, '+=0.25');
+        tl2.call(function(){
+          var dir = tl2.scrollTrigger ? tl2.scrollTrigger.direction : 1;
+          var prev = order[stepIndex - 1];
+          var cur = order[stepIndex];
+          var prevEl = itemFor(prev.side, prev.idx);
+          var curEl = itemFor(cur.side, cur.idx);
+          if (dir < 0){
+            if (curEl) curEl.classList.remove('active');
+            if (prevEl) prevEl.classList.add('active');
+            setCardContent(prev);
+          } else {
+            if (prevEl) prevEl.classList.remove('active');
+            if (curEl) curEl.classList.add('active');
+            setCardContent(cur);
+          }
+        });
+        tl2.to([cardPromised, cardDid], {rotateY:0, duration:0.35, ease:'power1.out'});
+      })(step);
+    }
+
+    return function(){
+      // cleanup not strictly required for this demo
+    };
+  });
+
+  ScrollTrigger.refresh();
+  }
+
+  // Captions/cards above measure real text box heights (e.g. seq2Textbox's
+  // offsetHeight) to work out how far off-stage to hide things. Google
+  // Fonts loads with font-display:swap, so on a slow/cold first load the
+  // fallback font — with different line-wrapping — is still showing when
+  // initSequences() would otherwise run, baking wrong distances into the
+  // timeline for the rest of the session. Wait for the real fonts first.
+  if (document.fonts && document.fonts.ready){
+    document.fonts.ready.then(initSequences);
+  } else {
+    initSequences();
+  }
+
+  // Images (hero banner, storyboard art) load asynchronously and change
+  // document height after fonts/setup above — re-measure once everything
+  // has actually loaded, or every pinned section's start/end math is based
+  // on stale (too-short) layout.
+  window.addEventListener('load', function(){ ScrollTrigger.refresh(); });
+})();
+</script>
+</body>
+</html>
